@@ -10,11 +10,14 @@
     $new_item = get_input();
 
     echo '(B)eginning or (E)nd of list; ';
-    $new_item2 = get_input(TRUE);
+    $choice = get_input(TRUE);
 
-    if ($new_item2 == 'B') {
+    if ($choice == 'B') {
     	array_unshift($array, $new_item);
-    } 
+    }
+    elseif ($choice == 'E') {
+    	array_push($array, $new_item);
+    }
     else {
     	array_push($array, $new_item);
     }

@@ -3,6 +3,27 @@
  // Create array to hold list of todo items
  $items = array();
  
+ function additem($array){
+	// Ask for entry
+    echo 'Enter item: ';
+    // Add entry to list array
+    $new_item = get_input();
+
+    echo '(B)eginning or (E)nd of list; ';
+    $new_item2 = get_input(TRUE);
+
+    if ($new_item2 == 'B') {
+    	array_unshift($array, $new_item);
+    } 
+    else {
+    	array_push($array, $new_item);
+    }
+  return $array;
+ }
+
+
+
+
  // List array items formatted for CLI
  function list_items($array)
  {
@@ -77,10 +98,8 @@ function sort_menu($items) {
 
      // Check for actionable input
      if ($input == 'N') {
-         // Ask for entry
-         echo 'Enter item: ';
-         // Add entry to list array
-         $items[] = get_input();
+        $items = additem($items);
+
      } 
 
      elseif ($input == 'R') {

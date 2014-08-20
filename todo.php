@@ -2,7 +2,7 @@
 
  // Create array to hold list of todo items
  $items = array();
-
+ 
  // List array items formatted for CLI
  function list_items($array)
  {
@@ -27,25 +27,47 @@
  // and convert to uppercase if $upper is true
  function get_input($upper = FALSE) 
  {
- 	if ($upper) {
- 		$letter = strtoupper(trim(fgets(STDIN)));
- 	}	 
- 	
- 	else {
- 		$letter = trim(fgets(STDIN));
- 	}
+ 	$input = trim(fgets(STDIN));
 
- 	return $letter;
- 	 
+ 	return ($upper) ? strtoupper($input) : $input;
  }
+
+function sort_menu($items) {
+	echo "(A)-Z, (Z)-A, (O)rder entered, (R)everse order entered: ";
+
+	$sort_input = get_input(TRUE);
+
+	switch ($sort_input) {
+		case 'A':
+			asort($items);	
+			break;
+		
+		case 'Z':
+			arsort($items);
+			break;
+		
+		case 'O':
+			ksort($items);
+			break;
+
+		case 'R':
+			krsort($items);
+			break;
+
+	}
+	
+	return $items;
+}
 
  // The loop!
  do {
+    
+ 	 
      // Echo the list produced by the function
      echo list_items($items);
 
      // Show the menu options
-     echo '(N)ew item, (R)emove item, (Q)uit : ';
+     echo '(N)ew item, (R)emove item, (Q)uit, (S)ort : ';
 
      // Get the input from user
      // Use trim() to remove whitespace and newlines
@@ -69,7 +91,14 @@
          $key--;
          // Remove from array
          unset($items[$key]);
+     	 $items = array_values($items);
      }
+    
+     elseif ($input == 'S') {
+     	$items = sort_menu($items);  
+
+     }
+     
  // Exit when input is (Q)uit
  } while ($input != 'Q');
 

@@ -16,6 +16,35 @@
  }
 
 
+function write_file($filename) {
+    $filename = "data/" . $filename;
+    $contents_array = array();
+
+    $handle = fopen($filename, "w+");
+    
+    if (file_exists($filename)) {
+        echo "File exists, would you like to overwrite it. (Y)es: ";
+
+        if (get_input() == 'Y') {
+            $contents = fwrite($handle, filesize($filename));
+            $contents_array = explode("\n", $contents);
+        } 
+        else {
+            return $contents_array;
+        }
+    
+    
+    
+     }
+     else{
+        $contents = fwrite($handle, filesize($filename));
+        $contents_array = explode("\n", $contents);
+     }              
+    
+    fclose($handle);
+
+    return $contents_array;
+}
 
 
 
@@ -107,7 +136,7 @@ function sort_menu($items) {
      echo list_items($items);
 
      // Show the menu options
-     echo '(N)ew item, (R)emove item, (Q)uit, (S)ort, (O)pen : ';
+     echo '(N)ew item, (R)emove item, (Q)uit, (S)ort, (O)pen, s(A)ve : ';
 
      // Get the input from user
      // Use trim() to remove whitespace and newlines
@@ -143,6 +172,13 @@ function sort_menu($items) {
         $new_items = read_file($filename);
 
         $items = array_merge($items, $new_items);
+
+     }
+
+     elseif ($input == 'A') {
+        echo 'Choose file to create or overwrite: ';  
+        $filename = get_input();
+        write_file($filename);
 
      }
      

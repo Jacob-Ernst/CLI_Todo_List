@@ -20,14 +20,15 @@ function write_file($filename) {
     $filename = "data/" . $filename;
     $contents_array = array();
 
-    $handle = fopen($filename, "w+");
     
     if (file_exists($filename)) {
         echo "File exists, would you like to overwrite it. (Y)es: ";
 
         if (get_input() == 'Y') {
+            $handle = fopen($filename, "w+");
             $contents = fwrite($handle, filesize($filename));
             $contents_array = explode("\n", $contents);
+            fclose($handle);
         } 
         else {
             return $contents_array;
@@ -37,11 +38,14 @@ function write_file($filename) {
     
      }
      else{
+        $handle = fopen($filename, "w+");
         $contents = fwrite($handle, filesize($filename));
         $contents_array = explode("\n", $contents);
+        fclose($handle);
+
      }              
     
-    fclose($handle);
+    
 
     return $contents_array;
 }

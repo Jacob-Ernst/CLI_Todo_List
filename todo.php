@@ -3,6 +3,22 @@
  // Create array to hold list of todo items
  $items = array();
  
+ function read_file($filename) {
+    $handle = fopen($filename, "r");
+    $contents = fread($handle, filesize($filename));
+    $contents_array = explode("\n", $contents);
+    fclose($handle);
+
+    
+
+    
+    return $contents_array;
+ }
+
+
+
+
+
  function additem($array){
 	// Ask for entry
     echo 'Enter item: ';
@@ -91,7 +107,7 @@ function sort_menu($items) {
      echo list_items($items);
 
      // Show the menu options
-     echo '(N)ew item, (R)emove item, (Q)uit, (S)ort : ';
+     echo '(N)ew item, (R)emove item, (Q)uit, (S)ort, (O)pen : ';
 
      // Get the input from user
      // Use trim() to remove whitespace and newlines
@@ -118,6 +134,15 @@ function sort_menu($items) {
     
      elseif ($input == 'S') {
      	$items = sort_menu($items);  
+
+     }
+
+     elseif ($input == 'O') {
+        echo 'Choose file to open: ';  
+        $filename = get_input();
+        $new_items = read_file($filename);
+
+        $items = array_merge($items, $new_items);
 
      }
      

@@ -5,10 +5,10 @@
  
  function read_file($filename) {
     $handle = fopen($filename, "r");
-    $contents = fread($handle, filesize($filename));
+    fread($handle, filesize($filename));
     $contents_array = explode("\n", $contents);
-    fclose($handle);
 
+    fclose($handle);
     
 
     
@@ -16,7 +16,7 @@
  }
 
 
-function write_file($filename) {
+function write_file($filename, $array) {
     $filename = "data/" . $filename;
     $contents_array = array();
 
@@ -24,11 +24,14 @@ function write_file($filename) {
     if (file_exists($filename)) {
         echo "File exists, would you like to overwrite it. (Y)es: ";
 
-        if (get_input() == 'Y') {
-            $handle = fopen($filename, "w+");
-            $contents = fwrite($handle, filesize($filename));
-            $contents_array = explode("\n", $contents);
-            fclose($handle);
+        if (get_input(TRUE) == 'Y') {
+            echo $filename . PHP_EOL;    
+            $handle = fopen($filename, "w");
+            foreach ($array as $value) {
+                fwrite($handle, $value . PHP_EOL);
+            }
+                fclose($handle);
+
         } 
         else {
             return $contents_array;
@@ -38,14 +41,14 @@ function write_file($filename) {
     
      }
      else{
-        $handle = fopen($filename, "w+");
-        $contents = fwrite($handle, filesize($filename));
-        $contents_array = explode("\n", $contents);
-        fclose($handle);
+       echo $filename . PHP_EOL;    
+            $handle = fopen($filename, "w");
+            foreach ($array as $value) {
+                fwrite($handle, $value . PHP_EOL);
+            }
+                fclose($handle);
 
      }              
-    
-    
 
     return $contents_array;
 }
@@ -182,7 +185,7 @@ function sort_menu($items) {
      elseif ($input == 'A') {
         echo 'Choose file to create or overwrite: ';  
         $filename = get_input();
-        write_file($filename);
+        write_file($filename, $items);
 
      }
      
